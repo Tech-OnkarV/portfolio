@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Onkar Vichare Portfolio</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --bg:#f4f6f9;--bg2:#eaf0f8;--card:#fff;
+    --accent:#1a3a6b;--accent2:#2563eb;
+    --blue:#dbeafe;--text:#1e293b;--muted:#64748b;--border:#cbd5e1;
+    --ease-spring:cubic-bezier(.34,1.56,.64,1);
+    --ease-out:cubic-bezier(.22,1,.36,1);
+    --ease-in-out:cubic-bezier(.65,0,.35,1);
+  }
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6;overflow-x:hidden;}
+
+  /* ── GLOBAL KEYFRAMES ── */
+  @keyframes slideDown{from{transform:translateY(-100%);opacity:0}to{transform:translateY(0);opacity:1}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes fadeDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  @keyframes scaleIn{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:scale(1)}}
+  @keyframes slideLeft{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+  @keyframes slideRight{from{opacity:0;transform:translateX(-40px)}to{opacity:1;transform:translateX(0)}}
+  @keyframes pulse{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.12);opacity:1}}
+  @keyframes gradientShift{0%,100%{background-position:0%}50%{background-position:100%}}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+  @keyframes float{0%{transform:translateY(100vh) scale(0) rotate(0deg);opacity:0}10%{opacity:.18}90%{opacity:.12}100%{transform:translateY(-10vh) scale(1) rotate(360deg);opacity:0}}
+  @keyframes hintPulse{0%,100%{opacity:.45;transform:translateX(0)}50%{opacity:1;transform:translateX(3px)}}
+  @keyframes learningPulse{0%,100%{border-color:var(--accent2);opacity:1;box-shadow:0 0 0 0 rgba(37,99,235,.2)}50%{border-color:rgba(37,99,235,.3);opacity:.7;box-shadow:0 0 0 4px rgba(37,99,235,.05)}}
+  @keyframes badgePop{from{transform:scale(0) rotate(-12deg)}to{transform:scale(1) rotate(0deg)}}
+  @keyframes heartbeat{0%,100%{transform:scale(1)}14%{transform:scale(1.3)}28%{transform:scale(1)}42%{transform:scale(1.25)}70%{transform:scale(1)}}
+  @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+  @keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+  @keyframes rotateOrb{0%{transform:rotate(0deg) scale(1)}50%{transform:rotate(180deg) scale(1.05)}100%{transform:rotate(360deg) scale(1)}}
+  @keyframes navLinkIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes dividerGrow{from{width:0;opacity:0}to{width:48px;opacity:1}}
+  @keyframes statPop{0%{transform:scale(1)}50%{transform:scale(1.08)}100%{transform:scale(1)}}
+  @keyframes tagFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+  @keyframes chatPop{from{transform:scale(0) rotate(-10deg)}to{transform:scale(1) rotate(0deg)}}
+  @keyframes badgePulse{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(239,68,68,.4)}70%{transform:scale(1.1);box-shadow:0 0 0 6px rgba(239,68,68,0)}}
+  @keyframes panelSlide{from{opacity:0;transform:translateY(28px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+  @keyframes msgAppear{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+  @keyframes statusPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.85)}}
+  @keyframes tl-reveal{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:translateX(0)}}
+
+  /* ── NAV ── */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(203,213,225,.6);padding:.8rem 2rem;display:flex;justify-content:space-between;align-items:center;animation:slideDown .6s var(--ease-out) both;transition:box-shadow .3s,background .3s;}
+  nav.scrolled{box-shadow:0 4px 24px rgba(0,0,0,.08);background:rgba(255,255,255,.99);}
+  .logo{font-size:1rem;font-weight:800;color:var(--accent);white-space:nowrap;transition:transform .3s var(--ease-spring),color .3s;}
+  .logo:hover{transform:scale(1.04);color:var(--accent2);}
+  .nav-links{display:flex;gap:1.2rem;list-style:none;}
+  .nav-links li{animation:navLinkIn .5s var(--ease-out) both;}
+  .nav-links li:nth-child(1){animation-delay:.1s}.nav-links li:nth-child(2){animation-delay:.15s}.nav-links li:nth-child(3){animation-delay:.2s}.nav-links li:nth-child(4){animation-delay:.25s}.nav-links li:nth-child(5){animation-delay:.3s}.nav-links li:nth-child(6){animation-delay:.35s}.nav-links li:nth-child(7){animation-delay:.4s}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:.8rem;font-weight:500;transition:color .25s,transform .25s;cursor:pointer;display:inline-block;position:relative;}
+  .nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;right:0;height:2px;background:var(--accent2);border-radius:2px;transform:scaleX(0);transform-origin:center;transition:transform .3s var(--ease-spring);}
+  .nav-links a:hover{color:var(--accent2);transform:translateY(-2px);}
+  .nav-links a:hover::after{transform:scaleX(1);}
+  .nav-links a.active{color:var(--accent2);font-weight:700;}
+  .nav-links a.active::after{transform:scaleX(1);}
+  .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none;}
+  .hamburger span{display:block;width:22px;height:2px;background:var(--accent);border-radius:2px;transition:all .35s var(--ease-spring);}
+  .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+  .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+  .nav-drawer{display:none;position:fixed;top:53px;left:0;right:0;background:#fff;border-bottom:1px solid var(--border);z-index:99;flex-direction:column;padding:1rem 2rem;gap:.8rem;box-shadow:0 12px 32px rgba(0,0,0,.1);transform-origin:top;}
+  .nav-drawer.open{display:flex;animation:fadeDown .25s var(--ease-out) both;}
+  .nav-drawer a{color:var(--text);text-decoration:none;font-size:.95rem;font-weight:600;padding:.4rem 0;border-bottom:1px solid var(--border);transition:color .2s,padding-left .2s;}
+  .nav-drawer a:hover{color:var(--accent2);padding-left:.5rem;}
+  .nav-drawer a:last-child{border-bottom:none;}
+
+  /* ── SECTIONS ── */
+  section{padding:5rem 1.5rem;max-width:1100px;margin:0 auto;}
+  .section-label{font-size:.7rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--accent2);margin-bottom:.4rem;}
+  .section-title{font-size:clamp(1.7rem,4vw,2.3rem);font-weight:800;margin-bottom:.8rem;line-height:1.2;}
+  .section-sub{color:var(--muted);max-width:640px;margin-bottom:2.5rem;font-size:.93rem;}
+  .divider{width:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent));background-size:200%;border-radius:999px;margin-bottom:2.5rem;animation:dividerGrow .8s var(--ease-out) .3s forwards,shimmer 3s linear 1.1s infinite;}
+
+  /* ── BUTTONS ── */
+  .btn{padding:.7rem 1.6rem;border-radius:10px;font-weight:700;font-size:.9rem;cursor:pointer;text-decoration:none;transition:all .3s var(--ease-out);display:inline-block;text-align:center;position:relative;overflow:hidden;}
+  .btn::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,0);transition:background .3s;}
+  .btn::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.25) 50%,transparent 60%);transform:translateX(-150%);transition:transform .55s ease;}
+  .btn:hover::after{transform:translateX(150%);}
+  .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;box-shadow:0 4px 14px rgba(37,99,235,.25);}
+  .btn-primary:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 10px 30px rgba(37,99,235,.4);}
+  .btn-primary:active{transform:translateY(-1px) scale(.99);}
+  .btn-outline{background:transparent;color:var(--accent);border:2px solid var(--accent);position:relative;z-index:0;}
+  .btn-outline::before{content:'';position:absolute;inset:0;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease-out);z-index:-1;}
+  .btn-outline:hover{color:#fff;transform:translateY(-3px);box-shadow:0 8px 20px rgba(26,58,107,.2);}
+  .btn-outline:hover::before{transform:scaleX(1);}
+
+  /* ── HERO ── */
+  #hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-top:5rem;position:relative;overflow:hidden;}
+  .orb{position:absolute;border-radius:50%;pointer-events:none;}
+  .orb1{top:-150px;right:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(37,99,235,.18) 0%,transparent 70%);animation:pulse 7s ease-in-out infinite,rotateOrb 25s linear infinite;}
+  .orb2{bottom:-180px;left:-120px;width:420px;height:420px;background:radial-gradient(circle,rgba(26,58,107,.14) 0%,transparent 70%);animation:pulse 9s ease-in-out infinite reverse,rotateOrb 20s linear infinite reverse;}
+  .orb3{top:40%;left:50%;width:300px;height:300px;background:radial-gradient(circle,rgba(37,99,235,.07) 0%,transparent 70%);animation:pulse 11s ease-in-out 2s infinite;transform:translate(-50%,-50%);}
+
+  /* floating particles */
+  .particles{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+  .particle{position:absolute;background:var(--accent2);border-radius:50%;opacity:.18;animation:float linear infinite;}
+
+  .hero-tag{display:inline-flex;align-items:center;gap:.5rem;background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.2);color:var(--accent2);padding:.35rem 1rem;border-radius:999px;font-size:.8rem;font-weight:600;margin-bottom:1.3rem;animation:fadeDown .8s .2s var(--ease-spring) both;transition:all .3s;}
+  .hero-tag:hover{background:rgba(37,99,235,.14);transform:scale(1.03);}
+  .hero-name{font-size:clamp(2.4rem,7vw,5rem);font-weight:900;line-height:1.05;margin-bottom:.7rem;animation:fadeUp .8s .3s var(--ease-out) both;}
+  .hero-name span{background:linear-gradient(135deg,var(--accent),var(--accent2),#60a5fa,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:300%;animation:gradientShift 5s ease infinite;}
+  .hero-role{font-size:clamp(.95rem,2vw,1.1rem);color:var(--accent2);font-weight:600;margin-bottom:.6rem;animation:fadeUp .8s .42s var(--ease-out) both;}
+  .hero-tagline{font-size:.93rem;color:var(--muted);margin-bottom:1.8rem;max-width:580px;animation:fadeUp .8s .54s var(--ease-out) both;}
+  .hero-stats{display:flex;gap:1.2rem;margin-bottom:2rem;flex-wrap:wrap;animation:fadeUp .8s .66s var(--ease-out) both;}
+  .stat{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:.8rem 1.3rem;box-shadow:0 2px 8px rgba(0,0,0,.05);transition:transform .35s var(--ease-spring),box-shadow .35s,border-color .35s;}
+  .stat:hover{transform:translateY(-6px) scale(1.04);box-shadow:0 14px 32px rgba(37,99,235,.18);border-color:rgba(37,99,235,.25);animation:statPop .4s var(--ease-spring);}
+  .stat .num{font-size:1.8rem;font-weight:800;color:var(--accent);}
+  .stat .lbl{font-size:.72rem;color:var(--muted);}
+  .hero-btns{display:flex;gap:.8rem;flex-wrap:wrap;animation:fadeUp .8s .78s var(--ease-out) both;}
+  .hero-btns .btn{flex:1;min-width:140px;}
+
+  /* typed cursor */
+  .typed-cursor{display:inline-block;width:3px;height:1.1em;background:var(--accent2);margin-left:3px;vertical-align:middle;animation:blink .7s step-end infinite;border-radius:2px;}
+
+  /* ── SCROLL REVEAL ── */
+  .reveal{opacity:0;transform:translateY(36px);transition:opacity .75s var(--ease-out),transform .75s var(--ease-out);}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+  .reveal-left{opacity:0;transform:translateX(-36px);transition:opacity .75s var(--ease-out),transform .75s var(--ease-out);}
+  .reveal-left.visible{opacity:1;transform:translateX(0);}
+  .reveal-right{opacity:0;transform:translateX(36px);transition:opacity .75s var(--ease-out),transform .75s var(--ease-out);}
+  .reveal-right.visible{opacity:1;transform:translateX(0);}
+
+  /* stagger children — more dramatic */
+  .stagger > *{opacity:0;transform:translateY(28px) scale(.97);transition:opacity .6s var(--ease-out),transform .6s var(--ease-out);}
+  .stagger.visible > *{opacity:1;transform:translateY(0) scale(1);}
+  .stagger.visible > *:nth-child(1){transition-delay:.04s}.stagger.visible > *:nth-child(2){transition-delay:.12s}
+  .stagger.visible > *:nth-child(3){transition-delay:.20s}.stagger.visible > *:nth-child(4){transition-delay:.28s}
+  .stagger.visible > *:nth-child(5){transition-delay:.36s}.stagger.visible > *:nth-child(6){transition-delay:.44s}
+  .stagger.visible > *:nth-child(7){transition-delay:.52s}.stagger.visible > *:nth-child(8){transition-delay:.60s}
+
+  /* ── FLIP CARDS ── */
+  .flip-card{height:220px;perspective:1200px;cursor:pointer;}
+  .flip-inner{position:relative;width:100%;height:100%;transition:transform .7s var(--ease-in-out);transform-style:preserve-3d;}
+  .flip-front,.flip-back{position:absolute;inset:0;border-radius:16px;padding:1.5rem;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;justify-content:center;}
+  .flip-front{background:var(--card);border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.05);transition:box-shadow .35s,border-color .35s,transform .35s var(--ease-spring);}
+  .flip-card:hover .flip-front{box-shadow:0 16px 40px rgba(37,99,235,.15);border-color:rgba(37,99,235,.2);transform:scale(1.005);}
+  .flip-back{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;transform:rotateY(180deg);box-shadow:0 12px 40px rgba(37,99,235,.3);}
+  .flip-icon{font-size:1.8rem;margin-bottom:.6rem;transition:transform .4s var(--ease-spring),filter .3s;}
+  .flip-card:hover .flip-icon{transform:scale(1.2) rotate(-5deg);filter:drop-shadow(0 4px 8px rgba(37,99,235,.3));}
+  .flip-badge{display:inline-block;background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.2);color:var(--accent2);padding:.1rem .5rem;border-radius:4px;font-size:.7rem;font-weight:700;margin-bottom:.4rem;transition:all .25s;}
+  .flip-card:hover .flip-badge{background:rgba(37,99,235,.14);transform:translateX(2px);}
+  .flip-front h4{font-size:.97rem;font-weight:700;color:var(--text);}
+  .flip-back h4{font-size:1rem;font-weight:800;margin-bottom:.6rem;}
+  .flip-back p{font-size:.84rem;opacity:.92;line-height:1.5;}
+  .flip-hint{font-size:.7rem;color:var(--muted);text-align:right;margin-top:.5rem;animation:hintPulse 2s ease-in-out infinite;}
+
+  /* ── DROPDOWN TIMELINE ── */
+  .timeline{display:flex;flex-direction:column;gap:.8rem;}
+  .tl-dropdown{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05);transition:box-shadow .4s var(--ease-out),border-color .4s,transform .3s var(--ease-spring);}
+  .tl-dropdown:hover{transform:translateX(3px);}
+  .tl-dropdown.open{box-shadow:0 12px 36px rgba(37,99,235,.14);border-color:rgba(37,99,235,.3);transform:translateX(0);}
+  .tl-header{display:flex;justify-content:space-between;align-items:center;padding:1.2rem 1.5rem;cursor:pointer;user-select:none;gap:1rem;transition:background .25s;}
+  .tl-header:hover{background:var(--bg2);}
+  .tl-header-left{display:flex;align-items:center;gap:1rem;flex:1;min-width:0;}
+  .tl-emoji{font-size:1.5rem;flex-shrink:0;transition:transform .4s var(--ease-spring),filter .3s;}
+  .tl-dropdown.open .tl-emoji{transform:scale(1.25) rotate(5deg);filter:drop-shadow(0 2px 6px rgba(37,99,235,.25));}
+  .tl-meta .title{font-size:1rem;font-weight:700;color:var(--text);transition:color .25s;}
+  .tl-dropdown.open .tl-meta .title{color:var(--accent2);}
+  .tl-meta .subtitle{color:var(--accent2);font-size:.83rem;font-weight:600;}
+  .tl-year-badge{background:var(--blue);color:var(--accent);border:1px solid #bfdbfe;padding:.2rem .7rem;border-radius:999px;font-size:.75rem;font-weight:700;white-space:nowrap;flex-shrink:0;transition:all .3s;}
+  .tl-dropdown.open .tl-year-badge{background:var(--accent2);color:#fff;border-color:var(--accent2);}
+  .tl-chevron{font-size:1rem;color:var(--muted);transition:transform .4s var(--ease-spring),color .3s;flex-shrink:0;}
+  .tl-dropdown.open .tl-chevron{transform:rotate(180deg);color:var(--accent2);}
+  .tl-body{max-height:0;overflow:hidden;transition:max-height .55s var(--ease-in-out);}
+  .tl-dropdown.open .tl-body{max-height:500px;}
+  .tl-body-inner{padding:0 1.5rem 1.3rem;animation:tl-reveal .4s var(--ease-out) .1s both;}
+  .tl-body-inner p{color:var(--muted);font-size:.86rem;margin-bottom:.7rem;}
+  .ba-highlights{display:flex;flex-wrap:wrap;gap:.35rem;}
+  .ba-tag{background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.2);color:var(--accent2);padding:.14rem .55rem;border-radius:999px;font-size:.72rem;font-weight:600;transition:all .25s var(--ease-spring);cursor:default;}
+  .ba-tag:hover{background:var(--accent2);color:#fff;transform:translateY(-2px) scale(1.05);box-shadow:0 4px 10px rgba(37,99,235,.25);}
+
+  /* ── SKILLS ── */
+  .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.1rem;}
+  .skill-group{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.3rem;box-shadow:0 2px 8px rgba(0,0,0,.04);transition:transform .4s var(--ease-spring),box-shadow .4s,border-color .3s;}
+  .skill-group:hover{transform:translateY(-6px) scale(1.01);box-shadow:0 16px 36px rgba(37,99,235,.12);border-color:rgba(37,99,235,.2);}
+  .skill-group h4{font-size:.72rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:.9rem;transition:color .3s;}
+  .skill-group:hover h4{color:var(--accent2);}
+  .skill-pills{display:flex;flex-wrap:wrap;gap:.45rem;}
+  .pill{padding:.24rem .75rem;border-radius:999px;font-size:.76rem;font-weight:600;transition:all .3s var(--ease-spring);cursor:default;}
+  .pill.done{background:var(--blue);border:1px solid #bfdbfe;color:var(--accent);}
+  .pill.done:hover{background:var(--accent);color:#fff;transform:translateY(-3px) scale(1.08);box-shadow:0 5px 14px rgba(26,58,107,.2);}
+  .pill.learning{background:#fff;border:1px dashed var(--accent2);color:var(--accent2);animation:learningPulse 2.5s ease-in-out infinite;}
+  .pill-legend{display:flex;gap:1.2rem;margin-bottom:1.3rem;font-size:.78rem;color:var(--muted);flex-wrap:wrap;}
+  .pill-legend span{display:flex;align-items:center;gap:.35rem;}
+  .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+  .dot.done{background:var(--accent2);}
+  .dot.learning{background:var(--accent);}
+
+  /* ── CERTS ── */
+  .certs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.9rem;margin-top:1.3rem;}
+  .cert{display:flex;align-items:center;gap:.7rem;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:.8rem 1.1rem;transition:all .35s var(--ease-spring);position:relative;box-shadow:0 2px 6px rgba(0,0,0,.04);overflow:hidden;}
+  .cert::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--accent),var(--accent2));transform:scaleY(0);transform-origin:bottom;transition:transform .35s var(--ease-out);}
+  .cert:hover{border-color:rgba(37,99,235,.3);transform:translateY(-4px) translateX(2px);box-shadow:0 10px 28px rgba(37,99,235,.14);}
+  .cert:hover::before{transform:scaleY(1);}
+  .cert-icon{font-size:1.2rem;flex-shrink:0;transition:transform .35s var(--ease-spring);}
+  .cert:hover .cert-icon{transform:scale(1.2) rotate(-8deg);}
+  .cert-name{font-weight:700;font-size:.83rem;color:var(--text);}
+  .cert-issuer{font-size:.73rem;color:var(--muted);}
+  .cert-text{flex:1;min-width:0;}
+  .in-progress{display:inline-flex;align-items:center;background:rgba(37,99,235,.1);border:1px solid rgba(37,99,235,.3);color:var(--accent2);font-size:.64rem;font-weight:700;padding:.18rem .55rem;border-radius:999px;white-space:nowrap;margin-left:auto;flex-shrink:0;align-self:center;animation:badgePop .6s var(--ease-spring) .2s both;}
+  .in-progress.planned{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.35);color:#d97706;}
+  @keyframes badgePop{from{transform:scale(0) rotate(-12deg)}to{transform:scale(1) rotate(0deg)}}
+
+  /* ── PROJECT FLIP CARDS ── */
+  .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.3rem;}
+  .proj-flip{height:260px;perspective:1200px;cursor:pointer;}
+  .proj-inner{position:relative;width:100%;height:100%;transition:transform .7s var(--ease-in-out);transform-style:preserve-3d;}
+  .proj-front,.proj-back{position:absolute;inset:0;border-radius:16px;padding:1.5rem;backface-visibility:hidden;-webkit-backface-visibility:hidden;}
+  .proj-front{background:var(--card);border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.05);transition:box-shadow .35s,border-color .35s;}
+  .proj-flip:hover .proj-front{box-shadow:0 16px 40px rgba(37,99,235,.15);border-color:rgba(37,99,235,.2);}
+  .proj-back{background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 100%);color:#fff;transform:rotateY(180deg);display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 12px 40px rgba(37,99,235,.3);}
+  .proj-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.7rem;gap:.5rem;}
+  .proj-icon{font-size:1.6rem;flex-shrink:0;transition:transform .4s var(--ease-spring),filter .3s;}
+  .proj-flip:hover .proj-icon{transform:scale(1.2) rotate(-8deg);filter:drop-shadow(0 4px 8px rgba(37,99,235,.25));}
+  .impact-badge{background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.2);color:var(--accent2);padding:.18rem .6rem;border-radius:999px;font-size:.7rem;font-weight:700;white-space:nowrap;transition:all .3s;}
+  .proj-flip:hover .impact-badge{background:rgba(37,99,235,.16);transform:scale(1.05);}
+  .proj-front h3{font-size:1rem;font-weight:700;margin-bottom:.3rem;color:var(--text);}
+  .proj-front .duration{font-size:.72rem;color:var(--muted);margin-bottom:.4rem;}
+  .proj-front p{color:var(--muted);font-size:.82rem;}
+  .proj-back h3{font-size:1rem;font-weight:800;margin-bottom:.5rem;}
+  .proj-back .impact-line{font-size:.85rem;font-weight:700;margin-bottom:.7rem;opacity:.95;}
+  .tags{display:flex;flex-wrap:wrap;gap:.35rem;}
+  .tag{background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.3);padding:.15rem .55rem;border-radius:999px;font-size:.72rem;font-weight:600;transition:all .25s var(--ease-spring);}
+  .tag:hover{background:rgba(255,255,255,.38);transform:translateY(-2px) scale(1.06);}
+
+  /* ── COUNTER ── */
+  .stat .num{font-size:1.8rem;font-weight:800;color:var(--accent);}
+
+  /* ── HOBBIES ── */
+  .hobbies-grid{display:flex;flex-wrap:wrap;gap:.8rem;}
+  .hobby{display:flex;align-items:center;gap:.5rem;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:.65rem 1.1rem;font-weight:600;font-size:.88rem;transition:all .35s var(--ease-spring);box-shadow:0 2px 6px rgba(0,0,0,.04);cursor:default;position:relative;overflow:hidden;}
+  .hobby::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--accent),var(--accent2));opacity:0;transition:opacity .3s;z-index:0;}
+  .hobby > *{position:relative;z-index:1;transition:color .3s;}
+  .hobby:hover{border-color:transparent;transform:translateY(-4px) scale(1.06);box-shadow:0 10px 24px rgba(37,99,235,.2);}
+  .hobby:hover::before{opacity:1;}
+  .hobby:hover > *{color:#fff;}
+  .hobby span:first-child{transition:transform .4s var(--ease-spring);}
+  .hobby:hover span:first-child{transform:rotate(20deg) scale(1.3);}
+
+  /* ── TESTIMONIALS ── */
+  .testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.3rem;}
+  .testimonial{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.6rem;transition:all .4s var(--ease-spring);box-shadow:0 2px 8px rgba(0,0,0,.05);position:relative;overflow:hidden;}
+  .testimonial::after{content:'"';position:absolute;bottom:-1rem;right:1rem;font-size:8rem;color:rgba(37,99,235,.05);font-family:Georgia,serif;line-height:1;pointer-events:none;transition:transform .4s var(--ease-out),color .4s;}
+  .testimonial:hover{border-color:rgba(37,99,235,.25);box-shadow:0 16px 40px rgba(37,99,235,.14);transform:translateY(-6px);}
+  .testimonial:hover::after{transform:translateY(-6px) scale(1.05);color:rgba(37,99,235,.08);}
+  .quote{font-size:2.5rem;color:var(--accent2);line-height:.8;margin-bottom:.5rem;font-family:Georgia,serif;transition:transform .35s var(--ease-spring),color .3s;}
+  .testimonial:hover .quote{transform:scale(1.15) rotate(-3deg);color:var(--accent);}
+  .testimonial p{color:var(--muted);font-size:.88rem;font-style:italic;margin-bottom:1.2rem;}
+  .reviewer{display:flex;align-items:center;gap:.7rem;}
+  .avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;color:#fff;flex-shrink:0;transition:transform .4s var(--ease-spring),box-shadow .4s;}
+  .testimonial:hover .avatar{transform:scale(1.15) rotate(8deg);box-shadow:0 6px 16px rgba(37,99,235,.3);}
+  .reviewer-info .name{font-weight:700;font-size:.88rem;}
+  .reviewer-info .role{font-size:.74rem;color:var(--muted);}
+
+  /* ── CONTACT ── */
+  .contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.9rem;}
+  .contact-card{display:flex;align-items:center;gap:.9rem;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.1rem 1.3rem;text-decoration:none;color:var(--text);transition:all .4s var(--ease-spring);box-shadow:0 2px 6px rgba(0,0,0,.04);position:relative;overflow:hidden;}
+  .contact-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--accent),var(--accent2));opacity:0;transition:opacity .35s;}
+  .contact-card:hover::before{opacity:1;}
+  .contact-card:hover{transform:translateY(-5px) scale(1.02);box-shadow:0 14px 32px rgba(37,99,235,.22);color:#fff;}
+  .contact-card .contact-icon,.contact-card span:last-child{position:relative;z-index:1;transition:color .3s,transform .35s var(--ease-spring);}
+  .contact-card:hover .contact-icon{transform:scale(1.25) rotate(-8deg);}
+  .contact-icon{font-size:1.3rem;flex-shrink:0;}
+  .contact-card span:last-child{font-weight:600;font-size:.86rem;word-break:break-all;}
+
+  /* ── CORE PROFICIENCY — RADIAL RINGS ── */
+  .proficiency-wrap{margin-top:2.8rem;}
+  .proficiency-wrap h3{font-size:1.1rem;font-weight:800;margin-bottom:1.6rem;color:var(--text);}
+  .proficiency-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1.4rem;}
+  .prof-item{display:flex;flex-direction:column;align-items:center;gap:.7rem;cursor:default;}
+  .ring-wrap{position:relative;width:96px;height:96px;}
+  .ring-svg{width:96px;height:96px;transform:rotate(-90deg);}
+  .ring-bg{fill:none;stroke:#e2e8f0;stroke-width:7;}
+  .ring-fill{fill:none;stroke-width:7;stroke-linecap:round;stroke-dasharray:0 251.2;transition:stroke-dasharray 1.5s cubic-bezier(.22,1,.36,1);}
+  .ring-fill.animated{stroke-dasharray:var(--dash) 251.2;}
+  .ring-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:800;color:var(--accent);transition:transform .3s var(--ease-spring),color .3s;}
+  .prof-item:hover .ring-pct{transform:scale(1.15);color:var(--accent2);}
+  .prof-item:hover .ring-fill{filter:drop-shadow(0 0 6px rgba(37,99,235,.5));}
+  .ring-label{font-size:.78rem;font-weight:600;color:var(--muted);text-align:center;line-height:1.3;transition:color .3s;}
+  .prof-item:hover .ring-label{color:var(--accent2);}
+  /* gradient stroke via linearGradient in SVG */
+  .ring-fill.c1{stroke:url(#grad1);}
+  .ring-fill.c2{stroke:url(#grad2);}
+  .ring-fill.c3{stroke:url(#grad3);}
+  .ring-fill.c4{stroke:url(#grad4);}
+  .ring-fill.c5{stroke:url(#grad5);}
+
+  footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.78rem;border-top:1px solid var(--border);position:relative;overflow:hidden;}
+  footer::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:100px;height:2px;background:linear-gradient(90deg,transparent,var(--accent2),transparent);}
+  .footer-heart{display:inline-block;color:#e74c3c;animation:heartbeat 1.6s ease-in-out infinite;}
+
+  /* ── RESUME BTN ── */
+  .resume-btn{display:inline-flex;align-items:center;gap:.45rem;padding:.45rem 1.1rem;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:.8rem;font-weight:700;text-decoration:none;transition:all .35s var(--ease-spring);white-space:nowrap;box-shadow:0 2px 8px rgba(37,99,235,.25);position:relative;overflow:hidden;}
+  .resume-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.25) 50%,transparent 60%);transform:translateX(-150%);transition:transform .55s ease;}
+  .resume-btn:hover{transform:translateY(-2px) scale(1.05);box-shadow:0 8px 22px rgba(37,99,235,.42);}
+  .resume-btn:hover::after{transform:translateX(150%);}
+  .resume-btn svg{width:14px;height:14px;flex-shrink:0;transition:transform .35s var(--ease-spring);}
+  .resume-btn:hover svg{transform:translateY(2px);}
+
+  /* ── CHATBOT ── */
+  #chatbot-fab{position:fixed;bottom:2rem;right:2rem;z-index:200;width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;cursor:pointer;font-size:1.5rem;box-shadow:0 6px 24px rgba(37,99,235,.4);display:flex;align-items:center;justify-content:center;transition:transform .35s var(--ease-spring),box-shadow .35s;animation:chatPop .7s var(--ease-spring) 1s both;}
+  #chatbot-fab:hover{transform:scale(1.12) rotate(-5deg);box-shadow:0 12px 36px rgba(37,99,235,.55);}
+  #chatbot-fab .fab-badge{position:absolute;top:-4px;right:-4px;width:18px;height:18px;border-radius:50%;background:#ef4444;color:#fff;font-size:.6rem;font-weight:800;display:flex;align-items:center;justify-content:center;border:2px solid #fff;animation:badgePulse 2s ease-in-out infinite;}
+  #chatbot-panel{position:fixed;bottom:6rem;right:2rem;z-index:200;width:360px;max-width:calc(100vw - 2rem);background:#fff;border-radius:20px;box-shadow:0 24px 64px rgba(0,0,0,.2);border:1px solid var(--border);display:none;flex-direction:column;overflow:hidden;}
+  #chatbot-panel.open{display:flex;animation:panelSlide .4s var(--ease-spring) both;}
+  .chat-header{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;padding:1rem 1.2rem;display:flex;align-items:center;gap:.75rem;flex-shrink:0;}
+  .chat-avatar{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;animation:floatY 3s ease-in-out infinite;}
+  .chat-header-info .name{font-weight:800;font-size:.95rem;}
+  .chat-header-info .status{font-size:.72rem;opacity:.85;display:flex;align-items:center;gap:.35rem;}
+  .status-dot{width:7px;height:7px;background:#4ade80;border-radius:50%;animation:statusPulse 2s ease-in-out infinite;}
+  .chat-close{margin-left:auto;background:none;border:none;color:#fff;cursor:pointer;font-size:1.3rem;line-height:1;opacity:.8;transition:opacity .2s,transform .3s var(--ease-spring);}
+  .chat-close:hover{opacity:1;transform:rotate(90deg) scale(1.15);}
+  .chat-messages{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.75rem;max-height:320px;min-height:200px;}
+  .chat-messages::-webkit-scrollbar{width:4px;}
+  .chat-messages::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+  .msg{max-width:82%;padding:.65rem .9rem;border-radius:14px;font-size:.84rem;line-height:1.5;animation:msgAppear .3s var(--ease-spring) both;}
+  .msg.bot{background:var(--bg2);color:var(--text);border-bottom-left-radius:4px;align-self:flex-start;}
+  .msg.user{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-bottom-right-radius:4px;align-self:flex-end;}
+  .msg.typing{background:var(--bg2);color:var(--muted);font-style:italic;}
+  .chat-suggestions{display:flex;gap:.4rem;padding:.5rem 1rem;flex-wrap:wrap;border-top:1px solid var(--border);background:#fafbfd;}
+  .sug-btn{background:var(--blue);border:1px solid #bfdbfe;color:var(--accent);border-radius:999px;padding:.25rem .75rem;font-size:.73rem;font-weight:600;cursor:pointer;transition:all .3s var(--ease-spring);white-space:nowrap;}
+  .sug-btn:hover{background:var(--accent2);color:#fff;border-color:var(--accent2);transform:translateY(-2px) scale(1.06);}
+  .chat-input-row{display:flex;gap:.5rem;padding:.8rem 1rem;border-top:1px solid var(--border);background:#fff;}
+  .chat-input{flex:1;border:1px solid var(--border);border-radius:10px;padding:.5rem .75rem;font-size:.85rem;outline:none;color:var(--text);transition:border-color .25s,box-shadow .25s;font-family:inherit;}
+  .chat-input:focus{border-color:var(--accent2);box-shadow:0 0 0 3px rgba(37,99,235,.1);}
+  .chat-send{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:10px;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .3s var(--ease-spring),box-shadow .3s;flex-shrink:0;}
+  .chat-send:hover{transform:scale(1.12) rotate(-5deg);box-shadow:0 6px 16px rgba(37,99,235,.35);}
+  .chat-send svg{width:16px;height:16px;}
+
+  /* ── FLIP CARD CLICK ── */
+  .flip-card.flipped .flip-inner{transform:rotateY(180deg);}
+  .proj-flip.flipped .proj-inner{transform:rotateY(180deg);}
+  .flip-card:hover .flip-inner,.proj-flip:hover .proj-inner{transform:none;}
+  .flip-card.flipped:hover .flip-inner{transform:rotateY(180deg);}
+  .proj-flip.flipped:hover .proj-inner{transform:rotateY(180deg);}
+  .flip-card.flipped .flip-front{box-shadow:0 12px 32px rgba(37,99,235,.15);}
+
+  /* ── RESPONSIVE ── */
+  @media(max-width:768px){
+    .nav-links{display:none;}
+    .hamburger{display:flex;}
+    section{padding:4rem 1.2rem;}
+    .skills-grid{grid-template-columns:1fr 1fr;}
+    .projects-grid{grid-template-columns:1fr;}
+    .testimonials-grid{grid-template-columns:1fr;}
+    .contact-grid{grid-template-columns:1fr 1fr;}
+    .hero-stats{gap:1rem;}
+    .stat .num{font-size:1.5rem;}
+    #chatbot-panel{width:calc(100vw - 2rem);right:1rem;bottom:5.5rem;}
+    .resume-btn span{display:none;}
+    .resume-btn{padding:.45rem .7rem;}
+  }
+  @media(max-width:480px){
+    .skills-grid,.contact-grid{grid-template-columns:1fr;}
+    .flip-card{height:auto;}
+    .proj-flip{height:auto;}
+    .flip-inner,.proj-inner{transform:none!important;position:relative;}
+    .flip-front,.proj-front{position:relative;inset:auto;border-radius:14px;}
+    .flip-back,.proj-back{position:relative;inset:auto;transform:none;border-radius:14px;margin-top:.5rem;display:flex;}
+    .flip-back{background:linear-gradient(135deg,var(--accent),var(--accent2));}
+    .proj-back{background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 100%);}
+    .flip-card,.proj-flip{perspective:none;}
+    .flip-hint{display:none;}
+    .certs-grid{flex-direction:column;}
+    .hero-btns{flex-direction:column;}
+    .hero-btns .btn{width:100%;}
+    nav{padding:.8rem 1rem;}
+    .logo{font-size:.85rem;}
+    .resume-btn span{display:inline;}
+    #chatbot-panel{bottom:5rem;right:.5rem;left:.5rem;width:auto;max-width:none;}
+    #chatbot-fab{bottom:1.2rem;right:1.2rem;width:50px;height:50px;font-size:1.3rem;}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Onkar Vichare · Business Analyst</div>
+  <ul class="nav-links">
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#academics">Academics</a></li>
+    <li><a href="#testimonials">Testimonials</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="onkar_resume.pdf" download class="resume-btn" title="Download Resume">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    <span>Resume</span>
+  </a>
+  <button class="hamburger" id="hbg" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+<div class="nav-drawer" id="drawer">
+  <a href="#experience" onclick="closeDrawer()">Experience</a>
+  <a href="#skills" onclick="closeDrawer()">Skills</a>
+  <a href="#projects" onclick="closeDrawer()">Projects</a>
+  <a href="#academics" onclick="closeDrawer()">Academics</a>
+  <a href="#testimonials" onclick="closeDrawer()">Testimonials</a>
+  <a href="#contact" onclick="closeDrawer()">Contact</a>
+  <a href="Onkar_Vichare_Resume.pdf" download style="color:var(--accent2);font-weight:800;">⬇ Download Resume</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  <div class="particles" id="particles"></div>
+  <div class="hero-tag">📊 Open to Business Analyst Opportunities</div>
+  <h1 class="hero-name">Hi, I'm<br/><span id="typed-name"></span><span class="typed-cursor"></span></h1>
+  <p class="hero-role">Business Analyst · QA Expert · Stakeholder Partner</p>
+  <p class="hero-tagline">With 7.5+ years across construction ERP, e-commerce, and enterprise platforms, I've been doing Business Analysis work — gathering requirements, authoring BRDs & user stories, coordinating UAT, and bridging clients with dev teams. I bring the title to match the experience.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="num" data-target="7" data-suffix=".5+">0</div><div class="lbl">Years of Experience</div></div>
+    <div class="stat"><div class="num" data-target="7" data-suffix="+">0</div><div class="lbl">Major Projects</div></div>
+    <div class="stat"><div class="num" data-target="15" data-suffix="%">0</div><div class="lbl">Defect Reduction</div></div>
+  </div>
+  <div class="hero-btns">
+    <a href="#experience" class="btn btn-primary">My Experience</a>
+    <a href="#contact" class="btn btn-outline">Let's Talk</a>
+  </div>
+</section>
+
+<!-- EXPERIENCE — DROPDOWN -->
+<section id="experience">
+  <div class="section-label reveal">Career</div>
+  <h2 class="section-title reveal">Experience</h2>
+  <p class="section-sub reveal">Click each role to expand details.</p>
+  <div class="divider reveal"></div>
+  <div class="timeline">
+    <div class="tl-dropdown reveal" id="dd1">
+      <div class="tl-header" onclick="toggleDD('dd1')">
+        <div class="tl-header-left"><div class="tl-emoji">🏗️</div><div class="tl-meta"><div class="title">Software Test Engineer</div><div class="subtitle">Xpedeon · Construction ERP, Mumbai</div></div></div>
+        <span class="tl-year-badge">Jul 2024 – Now</span><span class="tl-chevron">▼</span>
+      </div>
+      <div class="tl-body"><div class="tl-body-inner">
+        <p>Contribute to a leading construction ERP through manual, automation, and API testing. Create user stories, feature requirements, and detailed test scenarios from FRDs derived from stakeholder business logic in Azure DevOps. Execute mobile testing via Appium and cross-browser validation with BrowserStack in an Agile environment.</p>
+        <div class="ba-highlights"><span class="ba-tag">✅ FRD / SRS Analysis</span><span class="ba-tag">✅ User Stories</span><span class="ba-tag">✅ Requirement Gap ID</span><span class="ba-tag">✅ Stakeholder Alignment</span><span class="ba-tag">✅ 15% Defect Reduction</span></div>
+      </div></div>
+    </div>
+    <div class="tl-dropdown reveal" id="dd2">
+      <div class="tl-header" onclick="toggleDD('dd2')">
+        <div class="tl-header-left"><div class="tl-emoji">🚗</div><div class="tl-meta"><div class="title">Quality Analyst</div><div class="subtitle">McCann Worldgroup, Mumbai</div></div></div>
+        <span class="tl-year-badge">Sep 2021 – Jun 2024</span><span class="tl-chevron">▼</span>
+      </div>
+      <div class="tl-body"><div class="tl-body-inner">
+        <p>Ensured quality for BMW Group Asia Pacific across web and mobile platforms. Coordinated UAT to validate client requirements, managed defect workflows via Monday.com, maintained user stories and documentation, and contributed to process improvement to accelerate release cycles.</p>
+        <div class="ba-highlights"><span class="ba-tag">✅ UAT Coordination</span><span class="ba-tag">✅ Client Collaboration</span><span class="ba-tag">✅ User Stories</span><span class="ba-tag">✅ Agile Delivery</span><span class="ba-tag">✅ Defect Workflow Mgmt</span></div>
+      </div></div>
+    </div>
+    <div class="tl-dropdown reveal" id="dd3">
+      <div class="tl-header" onclick="toggleDD('dd3')">
+        <div class="tl-header-left"><div class="tl-emoji">👗</div><div class="tl-meta"><div class="title">Business Analyst · Quality Assurance</div><div class="subtitle">Pretture · Fashion ERP, Mumbai</div></div></div>
+        <span class="tl-year-badge">Nov 2019 – Sep 2021</span><span class="tl-chevron">▼</span>
+      </div>
+      <div class="tl-body"><div class="tl-body-inner">
+        <p>Officially titled BA-QA at Pretture — a cloud ERP for fashion manufacturers. Consulted clients on business needs, translated requirements into functional specs and FRDs, led UAT and functional testing, and provided training and ongoing support to maximise software adoption.</p>
+        <div class="ba-highlights"><span class="ba-tag">✅ Client Consulting</span><span class="ba-tag">✅ Requirements Analysis</span><span class="ba-tag">✅ FRD Documentation</span><span class="ba-tag">✅ UAT Leadership</span><span class="ba-tag">✅ Change Requests</span><span class="ba-tag">✅ Client Training</span></div>
+      </div></div>
+    </div>
+    <div class="tl-dropdown reveal" id="dd4">
+      <div class="tl-header" onclick="toggleDD('dd4')">
+        <div class="tl-header-left"><div class="tl-emoji">🗂️</div><div class="tl-meta"><div class="title">Project Specialist</div><div class="subtitle">Sterling, Thane</div></div></div>
+        <span class="tl-year-badge">Mar – Oct 2019</span><span class="tl-chevron">▼</span>
+      </div>
+      <div class="tl-body"><div class="tl-body-inner">
+        <p>Managed project verification activities, conducted quality assurance on client documents, and reported issues promptly.</p>
+        <div class="ba-highlights"><span class="ba-tag">✅ Project Coordination</span><span class="ba-tag">✅ QA & Documentation</span></div>
+      </div></div>
+    </div>
+    <div class="tl-dropdown reveal" id="dd5">
+      <div class="tl-header" onclick="toggleDD('dd5')">
+        <div class="tl-header-left"><div class="tl-emoji">🎨</div><div class="tl-meta"><div class="title">Software Test Engineer</div><div class="subtitle">Lionbridge Technologies, Navi Mumbai</div></div></div>
+        <span class="tl-year-badge">Apr – Nov 2017</span><span class="tl-chevron">▼</span>
+      </div>
+      <div class="tl-body"><div class="tl-body-inner">
+        <p>Executed browser compatibility and device testing for Adobe Suite and live site projects. Contributed to defect management, communication, and test scope planning.</p>
+        <div class="ba-highlights"><span class="ba-tag">✅ Test Planning</span><span class="ba-tag">✅ Defect Management</span></div>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label reveal">Toolkit</div>
+  <h2 class="section-title reveal">Skills & Tools</h2>
+  <div class="pill-legend reveal">
+    <span><span class="dot done"></span> Proficient</span>
+    <span><span class="dot learning"></span> Currently Learning</span>
+  </div>
+  <div class="skills-grid stagger">
+    <div class="skill-group"><h4>📋 BA Core Skills</h4><div class="skill-pills"><span class="pill done">Requirements Gathering</span><span class="pill done">BRD / FRD</span><span class="pill done">User Stories</span><span class="pill done">Gap Analysis</span><span class="pill done">UAT</span><span class="pill done">Wireframing</span><span class="pill done">Client Consulting</span><span class="pill learning">Process Mapping</span><span class="pill learning">Use Case Diagrams</span></div></div>
+    <div class="skill-group"><h4>📊 Data & Reporting</h4><div class="skill-pills"><span class="pill done">SQL</span><span class="pill done">MS Office</span><span class="pill done">Technical Requirements</span><span class="pill learning">Power BI</span><span class="pill learning">Advanced Excel</span></div></div>
+    <div class="skill-group"><h4>🛠 Tools & Platforms</h4><div class="skill-pills"><span class="pill done">JIRA</span><span class="pill done">Azure DevOps</span><span class="pill done">Monday.com</span><span class="pill done">Confluence</span><span class="pill done">Postman</span><span class="pill done">BrowserStack</span><span class="pill done">Appium</span><span class="pill done">Selenium IDE</span><span class="pill done">SFTP</span></div></div>
+    <div class="skill-group"><h4>🤝 Soft Skills</h4><div class="skill-pills"><span class="pill done">Client Coordination</span><span class="pill done">Team Handling</span><span class="pill done">PMO</span><span class="pill done">Stakeholder Mgmt</span><span class="pill done">Agile / Scrum</span><span class="pill done">Project Documentation</span></div></div>
+  </div>
+
+  <!-- CORE PROFICIENCY — RADIAL RINGS -->
+  <div class="proficiency-wrap reveal">
+    <h3>Core Proficiency</h3>
+    <div class="proficiency-grid">
+
+      <!-- SVG defs shared (hidden) -->
+      <svg width="0" height="0" style="position:absolute">
+        <defs>
+          <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1a3a6b"/><stop offset="100%" stop-color="#2563eb"/></linearGradient>
+          <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#2563eb"/><stop offset="100%" stop-color="#60a5fa"/></linearGradient>
+          <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1a3a6b"/><stop offset="100%" stop-color="#3b82f6"/></linearGradient>
+          <linearGradient id="grad4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#2563eb"/><stop offset="100%" stop-color="#818cf8"/></linearGradient>
+          <linearGradient id="grad5" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1a3a6b"/><stop offset="100%" stop-color="#2563eb"/></linearGradient>
+        </defs>
+      </svg>
+
+      <div class="prof-item">
+        <div class="ring-wrap">
+          <svg class="ring-svg" viewBox="0 0 96 96">
+            <circle class="ring-bg" cx="48" cy="48" r="40"/>
+            <circle class="ring-fill c1" cx="48" cy="48" r="40" style="--dash:226.2"/>
+          </svg>
+          <div class="ring-pct">90%</div>
+        </div>
+        <div class="ring-label">Requirements &amp; BRD/FRD</div>
+      </div>
+
+      <div class="prof-item">
+        <div class="ring-wrap">
+          <svg class="ring-svg" viewBox="0 0 96 96">
+            <circle class="ring-bg" cx="48" cy="48" r="40"/>
+            <circle class="ring-fill c2" cx="48" cy="48" r="40" style="--dash:238.7"/>
+          </svg>
+          <div class="ring-pct">95%</div>
+        </div>
+        <div class="ring-label">UAT &amp; Testing</div>
+      </div>
+
+      <div class="prof-item">
+        <div class="ring-wrap">
+          <svg class="ring-svg" viewBox="0 0 96 96">
+            <circle class="ring-bg" cx="48" cy="48" r="40"/>
+            <circle class="ring-fill c3" cx="48" cy="48" r="40" style="--dash:213.7"/>
+          </svg>
+          <div class="ring-pct">85%</div>
+        </div>
+        <div class="ring-label">Stakeholder Management</div>
+      </div>
+
+      <div class="prof-item">
+        <div class="ring-wrap">
+          <svg class="ring-svg" viewBox="0 0 96 96">
+            <circle class="ring-bg" cx="48" cy="48" r="40"/>
+            <circle class="ring-fill c4" cx="48" cy="48" r="40" style="--dash:175.8"/>
+          </svg>
+          <div class="ring-pct">70%</div>
+        </div>
+        <div class="ring-label">SQL &amp; Data Analysis</div>
+      </div>
+
+      <div class="prof-item">
+        <div class="ring-wrap">
+          <svg class="ring-svg" viewBox="0 0 96 96">
+            <circle class="ring-bg" cx="48" cy="48" r="40"/>
+            <circle class="ring-fill c5" cx="48" cy="48" r="40" style="--dash:221.2"/>
+          </svg>
+          <div class="ring-pct">88%</div>
+        </div>
+        <div class="ring-label">Agile / Scrum</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="margin-top:2.5rem;">
+    <div class="section-label">Credentials</div>
+    <h3 style="font-size:1.3rem;font-weight:800;margin-bottom:.5rem;color:var(--text);">Certifications</h3>
+    <div class="certs-grid stagger">
+      <div class="cert"><div class="cert-icon">📜</div><div class="cert-text"><div class="cert-name">Advanced Professional Automation Test Specialist</div><div class="cert-issuer">Completed</div></div></div>
+      <div class="cert"><div class="cert-icon">📜</div><div class="cert-text"><div class="cert-name">Professional Software Test Specialist</div><div class="cert-issuer">Completed</div></div></div>
+      <div class="cert"><div class="cert-icon">📜</div><div class="cert-text"><div class="cert-name">Postman Essential Training</div><div class="cert-issuer">Completed</div></div></div>
+      <div class="cert"><div class="cert-icon">📜</div><div class="cert-text"><div class="cert-name">Image Management — Soft Skills</div><div class="cert-issuer">Completed</div></div></div>
+      <div class="cert"><div class="cert-icon">🎯</div><div class="cert-text"><div class="cert-name">Business Analysis Fundamentals</div><div class="cert-issuer">In Progress</div></div><span class="in-progress">In Progress</span></div>
+      <div class="cert"><div class="cert-icon">🎯</div><div class="cert-text"><div class="cert-name">Power BI / Data Analytics</div><div class="cert-issuer">Planned</div></div><span class="in-progress planned">Planned</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS — FLIP CARDS -->
+<section id="projects">
+  <div class="section-label reveal">Portfolio</div>
+  <h2 class="section-title reveal">Projects & Case Studies</h2>
+  <p class="section-sub reveal">Click each card to reveal the business impact.</p>
+  <div class="divider reveal"></div>
+  <div class="projects-grid stagger">
+    <div class="proj-flip"><div class="proj-inner">
+      <div class="proj-front"><div class="proj-header"><div class="proj-icon">🏗️</div><span class="impact-badge">↓ 15% Critical Defects</span></div><h3>Xpedeon — Construction ERP</h3><div class="duration">📅 275 Days · Xpedeon</div><p>QA for a full construction ERP — budgeting, procurement, inventory & compliance. FRD analysis and user story authoring in an Agile setup.</p></div>
+      <div class="proj-back"><div><h3>Xpedeon — Construction ERP</h3><div class="impact-line">📉 15% reduction in critical defects over 4 release cycles.</div></div><div class="tags"><span class="tag">FRD Analysis</span><span class="tag">User Stories</span><span class="tag">API Testing</span><span class="tag">Azure DevOps</span></div></div>
+    </div></div>
+    <div class="proj-flip"><div class="proj-inner">
+      <div class="proj-front"><div class="proj-header"><div class="proj-icon">👗</div><span class="impact-badge">BA-QA Role</span></div><h3>Pretture — Fashion ERP</h3><div class="duration">📅 670 Days · Pretture</div><p>Officially BA-QA for a cloud ERP. Consulted clients, translated requirements into FRDs, led UAT, and delivered on-premises training.</p></div>
+      <div class="proj-back"><div><h3>Pretture — Fashion ERP</h3><div class="impact-line">🤝 Full BA lifecycle — from requirements to deployment.</div></div><div class="tags"><span class="tag">Client Consulting</span><span class="tag">FRD</span><span class="tag">UAT</span><span class="tag">Training</span></div></div>
+    </div></div>
+    <div class="proj-flip"><div class="proj-inner">
+      <div class="proj-front"><div class="proj-header"><div class="proj-icon">🚗</div><span class="impact-badge">853 Days</span></div><h3>BMW Lifestyle — Web & Mobile</h3><div class="duration">📅 853 Days · McCann Worldgroup</div><p>Automated testing frameworks for BMW Lifestyle. UAT coordination, team training and test status reporting.</p></div>
+      <div class="proj-back"><div><h3>BMW Lifestyle</h3><div class="impact-line">🚀 Consistent quality across 3 international markets.</div></div><div class="tags"><span class="tag">UAT</span><span class="tag">Automation</span><span class="tag">Team Training</span><span class="tag">Reporting</span></div></div>
+    </div></div>
+    <div class="proj-flip"><div class="proj-inner">
+      <div class="proj-front"><div class="proj-header"><div class="proj-icon">🌏</div><span class="impact-badge">1309 Days</span></div><h3>BMW Website — India, Japan, Korea</h3><div class="duration">📅 1309 Days · McCann Worldgroup</div><p>QA for AEM websites and mobile apps across 3 countries. Cross-browser, cross-device validation and team leadership.</p></div>
+      <div class="proj-back"><div><h3>BMW Website</h3><div class="impact-line">🌐 Seamless UX across all platforms and regions.</div></div><div class="tags"><span class="tag">AEM Testing</span><span class="tag">Cross-browser</span><span class="tag">Team Leadership</span></div></div>
+    </div></div>
+    <div class="proj-flip"><div class="proj-inner">
+      <div class="proj-front"><div class="proj-header"><div class="proj-icon">🛒</div><span class="impact-badge">90 Days</span></div><h3>ADM — E-Commerce Project</h3><div class="duration">📅 90 Days · McCann Worldgroup</div><p>Test case design, execution, stakeholder reporting and regression automation coordination.</p></div>
+      <div class="proj-back"><div><h3>ADM — E-Commerce</h3><div class="impact-line">📊 End-to-end reporting delivered to stakeholders.</div></div><div class="tags"><span class="tag">Test Design</span><span class="tag">Reporting</span><span class="tag">Regression</span></div></div>
+    </div></div>
+    <div class="proj-flip"><div class="proj-inner">
+      <div class="proj-front"><div class="proj-header"><div class="proj-icon">🎨</div><span class="impact-badge">214 Days</span></div><h3>Adobe — InDesign, Animate, Illustrator</h3><div class="duration">📅 214 Days · Lionbridge</div><p>Functional, UI/UX, and regression testing for Adobe Creative Suite across 3 flagship products.</p></div>
+      <div class="proj-back"><div><h3>Adobe Creative Suite</h3><div class="impact-line">✅ Quality across Adobe's core creative tools.</div></div><div class="tags"><span class="tag">Functional Testing</span><span class="tag">UI/UX</span><span class="tag">Automation</span></div></div>
+    </div></div>
+  </div>
+</section>
+
+<!-- ACADEMICS — DROPDOWN -->
+<section id="academics">
+  <div class="section-label reveal">Education</div>
+  <h2 class="section-title reveal">Academic Background</h2>
+  <div class="divider reveal"></div>
+  <div class="timeline">
+    <div class="tl-dropdown reveal" id="edu1">
+      <div class="tl-header" onclick="toggleDD('edu1')">
+        <div class="tl-header-left"><div class="tl-emoji">🎓</div><div class="tl-meta"><div class="title">MBA — IT & Project Management</div><div class="subtitle">Welingkar Institute of Management, Mumbai</div></div></div>
+        <span class="tl-year-badge">2021 – 2022 · 71%</span><span class="tl-chevron">▼</span>
+      </div>
+      <div class="tl-body"><div class="tl-body-inner"><p>Specialised in IT Project Management. Coursework in business process management, stakeholder communication, and IT strategy — directly aligned with BA practice.</p></div></div>
+    </div>
+    <div class="tl-dropdown reveal" id="edu2">
+      <div class="tl-header" onclick="toggleDD('edu2')">
+        <div class="tl-header-left"><div class="tl-emoji">💻</div><div class="tl-meta"><div class="title">Bachelor's Degree — Information Technology</div><div class="subtitle">University of Mumbai</div></div></div>
+        <span class="tl-year-badge">2013 – 2016</span><span class="tl-chevron">▼</span>
+      </div>
+      <div class="tl-body"><div class="tl-body-inner"><p>Strong foundation in software systems, databases, and IT fundamentals. Built the technical base that informs my cross-functional BA approach today.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOBBIES -->
+<section id="hobbies">
+  <div class="section-label reveal">Beyond Work</div>
+  <h2 class="section-title reveal">Hobbies & Interests</h2>
+  <div class="divider reveal"></div>
+  <div class="hobbies-grid stagger">
+    <div class="hobby"><span>🤖</span><span>Technology & AI</span></div>
+    <div class="hobby"><span>🎮</span><span>Gaming</span></div>
+    <div class="hobby"><span>🛣️</span><span>Road Trips</span></div>
+    <div class="hobby"><span>🧗</span><span>Adventure</span></div>
+    <div class="hobby"><span>🍳</span><span>Cooking</span></div>
+    <div class="hobby"><span>🚗</span><span>Automobile Enthusiast</span></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-label reveal">Kind Words</div>
+  <h2 class="section-title reveal">What Colleagues Say</h2>
+  <p class="section-sub reveal">Voices from the people who've worked alongside me across projects and companies.</p>
+  <div class="divider reveal"></div>
+  <div class="testimonials-grid stagger">
+    <div class="testimonial">
+      <div class="quote">"</div>
+      <p>Onkar has proactively learned new softwares and provided solutions to clients. He deeply understood the requirements and problems of each client and consistently helped in delivering meaningful, impactful solutions.</p>
+      <div class="reviewer"><div class="avatar">CF</div><div class="reviewer-info"><div class="name">Co-Founder</div><div class="role">Pretture</div></div></div>
+    </div>
+    <div class="testimonial">
+      <div class="quote">"</div>
+      <p>He helped and managed the QA team and oversaw tasks independently. His contributions to training the team and creating thorough testing artifacts significantly boosted overall productivity.</p>
+      <div class="reviewer"><div class="avatar">PM</div><div class="reviewer-info"><div class="name">Project Manager</div><div class="role">McCann Worldgroup</div></div></div>
+    </div>
+    <div class="testimonial">
+      <div class="quote">"</div>
+      <p>Onkar is a highly reliable professional whose attention to detail and proactive approach consistently ensures the success of our project releases at Xpedeon.</p>
+      <div class="reviewer"><div class="avatar">QL</div><div class="reviewer-info"><div class="name">QA Lead</div><div class="role">Xpedeon</div></div></div>
+    </div>
+    <div class="testimonial">
+      <div class="quote">"</div>
+      <p>Onkar managed to perform the Testing and UAT of different modules independently and presented results clearly to the stakeholders — demonstrating strong ownership and communication skills.</p>
+      <div class="reviewer"><div class="avatar">PM</div><div class="reviewer-info"><div class="name">Project Manager</div><div class="role">Xpedeon</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label reveal">Let's Connect</div>
+  <h2 class="section-title reveal">Get In Touch</h2>
+  <p class="section-sub reveal">Open to Business Analyst roles in Mumbai and beyond. Let's talk about how my experience adds value to your team.</p>
+  <div class="divider reveal"></div>
+  <div class="contact-grid stagger">
+    <a href="/cdn-cgi/l/email-protection#b8d7d6d3d9caced1dbd0d9cadd818af8dfd5d9d1d496dbd7d5" class="contact-card"><span class="contact-icon">📧</span><span><span class="__cf_email__" data-cfemail="82edece9e3f0f4ebe1eae3f0e7bbb0c2e5efe3ebeeace1edef">[email&#160;protected]</span></span></a>
+    <a href="tel:+918419990792" class="contact-card"><span class="contact-icon">📞</span><span>+91 84199 90792</span></a>
+    <a href="https://www.linkedin.com/in/onkar-vichare-08ab18140" class="contact-card"><span class="contact-icon">💼</span><span>LinkedIn Profile</span></a>
+    <a href="https://github.com/Tech-OnkarV" class="contact-card"><span class="contact-icon">🐙</span><span>GitHub · Tech-OnkarV</span></a>
+  </div>
+</section>
+
+<!-- CHATBOT FAB -->
+<button id="chatbot-fab" aria-label="Chat with Onkar's AI">
+  💬
+  <span class="fab-badge">1</span>
+</button>
+
+<!-- CHATBOT PANEL -->
+<div id="chatbot-panel">
+  <div class="chat-header">
+    <div class="chat-avatar">🤖</div>
+    <div class="chat-header-info">
+      <div class="name">Onkar's Portfolio Bot</div>
+      <div class="status"><span class="status-dot"></span> Online — Ask me anything!</div>
+    </div>
+    <button class="chat-close" id="chat-close-btn">✕</button>
+  </div>
+  <div class="chat-messages" id="chat-messages"></div>
+  <div class="chat-suggestions" id="chat-suggestions">
+    <button class="sug-btn">👋 Who are you?</button>
+    <button class="sug-btn">💼 Experience?</button>
+    <button class="sug-btn">🛠 Skills?</button>
+    <button class="sug-btn">📧 Contact?</button>
+  </div>
+  <div class="chat-input-row">
+    <input class="chat-input" id="chat-input" type="text" placeholder="Ask about Onkar…" maxlength="200" autocomplete="off"/>
+    <button class="chat-send" id="chat-send-btn" aria-label="Send">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+</div>
+
+<footer>
+  <p>Built with <span class="footer-heart">♥</span> by <strong>Onkar Vichare</strong> · Business Analyst · Mumbai, India · 2025</p>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ─────────────────────────────────────────────
+// CHATBOT DATA — Edit this JSON to update info
+// ─────────────────────────────────────────────
+const PORTFOLIO_DATA = {
+  name: "Onkar Vichare",
+  role: "Business Analyst",
+  location: "Mumbai, India",
+  experience: "7.5+ years",
+  email: "onkarvichare@example.com",
+  phone: "+91 84199 90792",
+  linkedin: "https://www.linkedin.com/in/onkar-vichare-08ab18140",
+  github: "https://github.com/Tech-OnkarV",
+  summary: "Business Analyst with 7.5+ years across construction ERP (Xpedeon), fashion ERP (Pretture), and enterprise web/mobile platforms (McCann Worldgroup). I bridge the gap between business requirements and technical delivery — gathering requirements, authoring BRDs & FRDs, coordinating UAT, and managing stakeholders.",
+  skills: {
+    "BA Core": ["Requirements Gathering", "BRD/FRD", "User Stories", "Gap Analysis", "UAT", "Client Consulting", "Wireframing"],
+    "Data & Reporting": ["SQL", "MS Office", "Power BI (learning)", "Advanced Excel (learning)"],
+    "Tools": ["JIRA", "Azure DevOps", "Monday.com", "Confluence", "Postman", "BrowserStack", "Appium"],
+    "Soft Skills": ["Stakeholder Management", "Agile/Scrum", "Team Handling", "Client Coordination"]
+  },
+  experience_details: [
+    { role: "Software Test Engineer", company: "Xpedeon", period: "Jul 2024 – Present", description: "Construction ERP QA with BA responsibilities: FRD analysis, user story authoring, requirement gap identification, 15% defect reduction." },
+    { role: "Quality Analyst", company: "McCann Worldgroup", period: "Sep 2021 – Jun 2024", description: "QA for BMW Group Asia Pacific. UAT coordination, user stories, defect workflow management on Monday.com." },
+    { role: "Business Analyst · QA", company: "Pretture", period: "Nov 2019 – Sep 2021", description: "Official BA-QA title. Client consulting, FRD documentation, UAT leadership, client training and change request handling." },
+    { role: "Project Specialist", company: "Sterling", period: "Mar – Oct 2019", description: "Project coordination and QA on client documents." },
+    { role: "Software Test Engineer", company: "Lionbridge Technologies", period: "Apr – Nov 2017", description: "Browser compatibility and device testing for Adobe Creative Suite." }
+  ],
+  education: [
+    { degree: "MBA — IT & Project Management", institution: "Welingkar Institute of Management, Mumbai", year: "2021–2022", grade: "71%" },
+    { degree: "Bachelor's — Information Technology", institution: "University of Mumbai", year: "2013–2016" }
+  ],
+  certifications: ["Advanced Professional Automation Test Specialist", "Professional Software Test Specialist", "Postman Essential Training", "Business Analysis Fundamentals (In Progress)", "Power BI / Data Analytics (Planned)"],
+  hobbies: ["Technology & AI", "Gaming", "Road Trips", "Adventure", "Cooking", "Automobile Enthusiast"],
+  availability: "Actively looking for Business Analyst roles in Mumbai and open to remote opportunities."
+};
+
+// ─── Simple keyword chatbot ───
+function getBotReply(msg) {
+  const m = msg.toLowerCase();
+  const d = PORTFOLIO_DATA;
+
+  if (m.match(/^(hi|hello|hey|who are you|introduce|about)/)) {
+    return `Hi! 👋 I'm a bot representing <strong>${d.name}</strong>, a ${d.role} based in ${d.location} with ${d.experience} of experience. Ask me about his skills, experience, or how to contact him!`;
+  }
+  if (m.match(/experience|work|career|job|history|xpedeon|mccann|pretture|lionbridge/)) {
+    return `<strong>${d.name}</strong> has ${d.experience} of experience across:<br>${d.experience_details.map(e => `• <strong>${e.role}</strong> @ ${e.company} (${e.period})`).join('<br>')}`;
+  }
+  if (m.match(/skill|tool|tech|know|can he|proficient/)) {
+    return `Key skills include:<br>${Object.entries(d.skills).map(([k,v]) => `• <strong>${k}:</strong> ${v.slice(0,4).join(', ')}…`).join('<br>')}`;
+  }
+  if (m.match(/contact|email|phone|reach|linkedin|connect/)) {
+    return `You can reach ${d.name} at:<br>📧 ${d.email}<br>📞 ${d.phone}<br>💼 <a href="${d.linkedin}" target="_blank" style="color:var(--accent2)">LinkedIn</a><br>🐙 <a href="${d.github}" target="_blank" style="color:var(--accent2)">GitHub</a>`;
+  }
+  if (m.match(/educat|degree|mba|university|college|study/)) {
+    return `<strong>Education:</strong><br>${d.education.map(e => `• ${e.degree} — ${e.institution} (${e.year}${e.grade?' · '+e.grade:''})`).join('<br>')}`;
+  }
+  if (m.match(/certif|course|credential/)) {
+    return `<strong>Certifications:</strong><br>${d.certifications.map(c => `• ${c}`).join('<br>')}`;
+  }
+  if (m.match(/hobby|hobbies|interest|outside|personal/)) {
+    return `Outside of work, ${d.name} enjoys: ${d.hobbies.join(', ')} 🎯`;
+  }
+  if (m.match(/available|hiring|open|looking|opportunit|job/)) {
+    return `✅ ${d.availability}`;
+  }
+  if (m.match(/project|portfolio|case study|built|created/)) {
+    return `Key projects include Construction ERP (Xpedeon), Fashion ERP (Pretture), BMW Lifestyle web & mobile (McCann), Adobe Creative Suite testing (Lionbridge). Scroll to the Projects section for full details!`;
+  }
+  if (m.match(/locat|mumbai|where|city|india/)) {
+    return `${d.name} is based in ${d.location} and open to remote work as well.`;
+  }
+  if (m.match(/resume|cv|download|pdf/)) {
+    return `You can download Onkar's resume using the <strong>Resume</strong> button in the navigation bar at the top of the page! ⬆`;
+  }
+  return `I'm not sure about that, but feel free to browse the portfolio or contact ${d.name} directly! Try asking about: experience, skills, education, or contact info. 😊`;
+}
+
+// ─── Chatbot UI ───
+const fab = document.getElementById('chatbot-fab');
+const panel = document.getElementById('chatbot-panel');
+const closeBtn = document.getElementById('chat-close-btn');
+const messagesEl = document.getElementById('chat-messages');
+const inputEl = document.getElementById('chat-input');
+const sendBtn = document.getElementById('chat-send-btn');
+const suggestions = document.querySelectorAll('.sug-btn');
+
+function addMsg(text, who) {
+  const d = document.createElement('div');
+  d.className = 'msg ' + who;
+  d.innerHTML = text;
+  messagesEl.appendChild(d);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function botReply(userMsg) {
+  const typing = document.createElement('div');
+  typing.className = 'msg bot typing';
+  typing.textContent = '…typing';
+  messagesEl.appendChild(typing);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+  setTimeout(() => {
+    typing.remove();
+    addMsg(getBotReply(userMsg), 'bot');
+  }, 700);
+}
+
+function openChat() {
+  panel.classList.add('open');
+  document.querySelector('.fab-badge').style.display = 'none';
+  if (!messagesEl.children.length) {
+    addMsg(`Hi there! 👋 I'm Onkar's portfolio assistant. Ask me about his experience, skills, education, or how to get in touch!`, 'bot');
+  }
+  inputEl.focus();
+}
+
+fab.addEventListener('click', () => {
+  if (panel.classList.contains('open')) { panel.classList.remove('open'); } else { openChat(); }
+});
+closeBtn.addEventListener('click', () => panel.classList.remove('open'));
+
+function handleSend() {
+  const msg = inputEl.value.trim();
+  if (!msg) return;
+  addMsg(msg, 'user');
+  inputEl.value = '';
+  botReply(msg);
+}
+sendBtn.addEventListener('click', handleSend);
+inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') handleSend(); });
+
+suggestions.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const q = btn.textContent.replace(/^[^\w]+/, '').trim();
+    addMsg(btn.textContent, 'user');
+    botReply(q);
+  });
+});
+
+// ─── Flip cards — click to toggle ───
+document.querySelectorAll('.flip-card, .proj-flip').forEach(card => {
+  card.addEventListener('click', () => { card.classList.toggle('flipped'); });
+});
+
+  // ── Particles (varied shapes & speeds) ──
+  const pc = document.getElementById('particles');
+  for(let i=0;i<24;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    const size=(Math.random()*6+3);
+    p.style.cssText=`
+      left:${Math.random()*100}%;
+      width:${size}px;height:${size}px;
+      border-radius:${Math.random()>.5?'50%':'3px'};
+      animation-duration:${Math.random()*14+8}s;
+      animation-delay:${Math.random()*12}s;
+      opacity:${Math.random()*.15+.05};
+    `;
+    pc.appendChild(p);
+  }
+
+  // ── Nav scroll class ──
+  window.addEventListener('scroll',()=>{
+    document.querySelector('nav').classList.toggle('scrolled',window.scrollY>30);
+  },{passive:true});
+
+  // ── Mouse parallax on hero orbs ──
+  const orb1=document.querySelector('.orb1'),orb2=document.querySelector('.orb2');
+  document.addEventListener('mousemove',e=>{
+    const x=(e.clientX/window.innerWidth-.5)*24;
+    const y=(e.clientY/window.innerHeight-.5)*18;
+    orb1.style.transform=`translate(${x}px,${y}px)`;
+    orb2.style.transform=`translate(${-x*.7}px,${-y*.7}px)`;
+  },{passive:true});
+
+  // ── Stagger hobby items on reveal ──
+  const hobbyGrid=document.querySelector('.hobbies-grid');
+  if(hobbyGrid){
+    Array.from(hobbyGrid.children).forEach((h,i)=>{
+      h.style.transitionDelay=`${i*.06}s`;
+    });
+  }
+
+  // ── Typewriter ──
+  const txt='Onkar Vichare';
+  let ti=0;
+  const el=document.getElementById('typed-name');
+  function type(){if(ti<=txt.length){el.textContent=txt.slice(0,ti++);setTimeout(type,90);}}
+  setTimeout(type,800);
+
+  // ── Animated Counters ──
+  function animateCounter(el){
+    const target=+el.dataset.target, suffix=el.dataset.suffix||'';
+    let cur=0, dur=1500, step=target/dur*16;
+    const t=setInterval(()=>{
+      cur=Math.min(cur+step,target);
+      el.textContent=(Number.isInteger(target)?Math.floor(cur):cur.toFixed(1))+suffix;
+      if(cur>=target)clearInterval(t);
+    },16);
+  }
+  const counterObs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){animateCounter(e.target);counterObs.unobserve(e.target);}});
+  },{threshold:.5});
+  document.querySelectorAll('.num[data-target]').forEach(n=>counterObs.observe(n));
+
+  // ── Radial Ring Animation ──
+  const ringObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting) {
+        e.target.querySelectorAll('.ring-fill').forEach(r => r.classList.add('animated'));
+        ringObs.unobserve(e.target);
+      }
+    });
+  }, {threshold: .3});
+  document.querySelectorAll('.proficiency-grid').forEach(g => ringObs.observe(g));
+
+  // ── Scroll Reveal ──
+  const revObs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');revObs.unobserve(e.target);}});
+  },{threshold:.1});
+  document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.stagger').forEach(r=>revObs.observe(r));
+
+  // ── Hamburger ──
+  const hbg=document.getElementById('hbg'),drawer=document.getElementById('drawer');
+  hbg.addEventListener('click',()=>{hbg.classList.toggle('open');drawer.classList.toggle('open');});
+  function closeDrawer(){hbg.classList.remove('open');drawer.classList.remove('open');}
+  document.addEventListener('click',e=>{if(!hbg.contains(e.target)&&!drawer.contains(e.target))closeDrawer();});
+
+  // ── Smooth Scroll ──
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',e=>{
+      const t=document.querySelector(a.getAttribute('href'));
+      if(t){e.preventDefault();window.scrollTo({top:t.offsetTop-document.querySelector('nav').offsetHeight,behavior:'smooth'});}
+    });
+  });
+
+  // ── Active Nav ──
+  const secs=document.querySelectorAll('section[id],div[id]');
+  const navAs=document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll',()=>{
+    let cur='';
+    secs.forEach(s=>{if(window.scrollY>=s.offsetTop-120)cur=s.id;});
+    navAs.forEach(a=>{a.classList.toggle('active',a.getAttribute('href')==='#'+cur);});
+  });
+
+  // ── Dropdown Timeline ──
+  function toggleDD(id){
+    const el=document.getElementById(id);
+    const isOpen=el.classList.contains('open');
+    document.querySelectorAll('.tl-dropdown.open').forEach(d=>d.classList.remove('open'));
+    if(!isOpen)el.classList.add('open');
+  }
+</script>
